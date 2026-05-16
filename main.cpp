@@ -63,14 +63,14 @@ void printMsg(const vector<string>& lines, BoxStyle style = BoxStyle::Info)
 			break;
     }
 
-    cout << color << "\n";
+    cout << color;
 
-    //First line gets the prefix (e.g "[i] "), remaining lines are indented with spaces to align
+    //First line gets the prefix, remaining lines are indented with spaces to align
     for (size_t i = 0; i < lines.size(); ++i)
         cout << (i == 0 ? prefix : string(prefix.size(), ' ')) << lines[i] << "\n";
 
     //After printing, the console text is reset to the default color
-    cout << Color::Reset << "\n";
+    cout << Color::Reset;
 }
 
 void printMenu()
@@ -97,20 +97,20 @@ void executeOperation(short opc, Circle& c1)
         case 1:
         {
             FloatXY pos = c1.position();
-            printMsg({ "Position: (" + toStr(pos.x) + ", " + toStr(pos.y) + ")" });
+            printMsg({ "Position: (" + toStr(pos.x) + ", " + toStr(pos.y) + ")\n" });
             break;
         }
 
         case 2:
-            printMsg({ "Radius: " + toStr(c1.size()) });
+            printMsg({ "Radius: " + toStr(c1.size()) + "\n" });
             break;
 
         case 3:
-            printMsg({ "Perimeter: " + toStr(c1.perimeter()) });
+            printMsg({ "Perimeter: " + toStr(c1.perimeter()) + "\n" });
             break;
 
         case 4:
-            printMsg({ "Area: " + toStr(c1.area()) });
+            printMsg({ "Area: " + toStr(c1.area()) + "\n" });
             break;
 
         case 5:
@@ -118,9 +118,9 @@ void executeOperation(short opc, Circle& c1)
             string quad = c1.quadrantStr();
 
             if (quad == "NONE")
-                printMsg({ "The circle does not belong to any quadrant." }, BoxStyle::Negative);
+                printMsg({ "The circle does not belong to any quadrant.\n" }, BoxStyle::Negative);
             else
-                printMsg({ "Quadrant: " + quad });
+                printMsg({ "Quadrant: " + quad + "\n" });
 
             break;
         }
@@ -134,7 +134,7 @@ void executeOperation(short opc, Circle& c1)
             {
                 printMsg({
                     "Current circle coordinates: (" + toStr(pos.x) + ", " + toStr(pos.y) + ").",
-                    "The values you enter will be added to them."
+                    "The values you enter will be added to them.\n"
                 });
 
                 cout << "Enter x and y separated by a space: ";
@@ -144,17 +144,17 @@ void executeOperation(short opc, Circle& c1)
                     break;
                 }
                 catch (const ios_base::failure&) {
-                    printMsg({ "Error: Invalid input. Please try again." }, BoxStyle::Error);
+                    printMsg({ "Error: Invalid input. Please try again.\n" }, BoxStyle::Error);
                     cin.clear();
                     cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 }
             }
 
             if (dx == 0.0f && dy == 0.0f)
-                printMsg({ "Coordinates were not changed." }, BoxStyle::Negative);
+                printMsg({ "Coordinates were not changed.\n" }, BoxStyle::Negative);
             else {
                 c1.move({ dx, dy });
-                printMsg({ "Circle successfully moved." }, BoxStyle::Success);
+                printMsg({ "Circle successfully moved.\n" }, BoxStyle::Success);
             }
 
             break;
@@ -168,7 +168,7 @@ void executeOperation(short opc, Circle& c1)
             {
                 printMsg({
                     "Current circle radius: " + toStr(c1.size()),
-                    "The inserted value acts as a multiplier."
+                    "The inserted value acts as a multiplier.\n"
                 });
 
                 cout << "Zoom: ";
@@ -179,19 +179,19 @@ void executeOperation(short opc, Circle& c1)
                     break;
                 }
                 catch (const ios_base::failure&) {
-                    printMsg({ "Error: Invalid input. Please try again." }, BoxStyle::Error);
+                    printMsg({ "Error: Invalid input. Please try again.\n" }, BoxStyle::Error);
                     cin.clear();
                     cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 }
                 catch (const invalid_argument& e) {
-                    printMsg({ string("Error: ") + e.what() }, BoxStyle::Error);
+                    printMsg({ string("Error: ") + e.what() + "\n" }, BoxStyle::Error);
                 }
             }
 
             if (zoom == 1.0f)
-                printMsg({ "Circle size was not changed." }, BoxStyle::Negative);
+                printMsg({ "Circle size was not changed.\n" }, BoxStyle::Negative);
             else
-                printMsg({ "Circle size changed successfully." }, BoxStyle::Success);
+                printMsg({ "Circle size changed successfully.\n" }, BoxStyle::Success);
 
             break;
         }
@@ -202,7 +202,7 @@ void executeOperation(short opc, Circle& c1)
 
             while (true)
             {
-                printMsg({ "Enter radius and coordinates for the second circle: <radius> <x> <y>." });
+                printMsg({ "Enter radius and coordinates for the second circle: <radius> <x> <y>.\n" });
 
                 cout << "Circle attributes: ";
 
@@ -217,11 +217,11 @@ void executeOperation(short opc, Circle& c1)
                     string msg;
 
                     if (distance > 0.0f)
-                        msg = "Distance between the circles: " + toStr(distance);
+                        msg = "Distance between the circles: " + toStr(distance) + "\n";
                     else if (distance == 0.0f)
-                        msg = "The circles are touching each other.";
+                        msg = "The circles are touching each other.\n";
                     else
-                        msg = "The circles are overlapping.";
+                        msg = "The circles are overlapping.\n";
 
                     printMsg({
                         "Main circle attributes: radius " + toStr(c1.size()) + ", (" + toStr(pos.x) + ", " + toStr(pos.y) + ").",
@@ -232,12 +232,12 @@ void executeOperation(short opc, Circle& c1)
                     break;
                 }
                 catch (const ios_base::failure&) {
-                    printMsg({ "Error: Invalid input. Please try again." }, BoxStyle::Error);
+                    printMsg({ "Error: Invalid input. Please try again.\n" }, BoxStyle::Error);
                     cin.clear();
                     cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 }
                 catch (const invalid_argument& e) {
-                    printMsg({ string("Error: ") + e.what() }, BoxStyle::Error);
+                    printMsg({ string("Error: ") + e.what() + "\n" }, BoxStyle::Error);
                 }
             }
             break;
@@ -253,7 +253,7 @@ void executeOperation(short opc, Circle& c1)
             {
                 printMsg({
                     "Current circle attributes: radius " + toStr(radius) + ", (" + toStr(pos.x) + ", " + toStr(pos.y) + ").",
-                    "Enter POSX and POSY: <POSX> <POSY>."
+                    "Enter POSX and POSY: <POSX> <POSY>.\n"
                 });
 
                 cout << "Point coordinates: ";
@@ -263,16 +263,16 @@ void executeOperation(short opc, Circle& c1)
                     break;
                 }
                 catch (const ios_base::failure&) {
-                    printMsg({ "Error: Invalid input. Please try again." }, BoxStyle::Error);
+                    printMsg({ "Error: Invalid input. Please try again.\n" }, BoxStyle::Error);
                     cin.clear();
                     cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 }
             }
 
             if (c1.contains({ x, y }))
-                printMsg({ "The point is inside the circle." }, BoxStyle::Success);
+                printMsg({ "The point is inside the circle.\n" }, BoxStyle::Success);
             else
-                printMsg({ "The point is not inside the circle." }, BoxStyle::Negative);
+                printMsg({ "The point is not inside the circle.\n" }, BoxStyle::Negative);
 
             break;
         }
@@ -282,7 +282,7 @@ void executeOperation(short opc, Circle& c1)
             break;
 
         default:
-            printMsg({ "Select a number between 1 and 10." }, BoxStyle::Warning);
+            printMsg({ "Select a number between 1 and 10.\n" }, BoxStyle::Warning);
             break;
     }
 }
@@ -291,10 +291,10 @@ int main()
 {
     short opc;
 
-    // Creating a circle -> Radius: 2, Coordinates: {3, 5}
+    //Creating a circle -> Radius: 2, Coordinates: {3, 5}
     Circle c1(2, { 3, 5 });
 
-    // Enable exceptions for failbit and badbit
+    //Enable exceptions for failbit and badbit
     cin.exceptions(ios::failbit | ios::badbit);
 
     do
@@ -306,7 +306,7 @@ int main()
         }
         catch (const ios_base::failure&)
         {
-            printMsg({ "Error: Invalid input. Please enter a number." }, BoxStyle::Error);
+            printMsg({ "Error: Invalid input. Please enter a number.\n" }, BoxStyle::Error);
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             continue;
